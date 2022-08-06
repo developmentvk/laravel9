@@ -7,7 +7,7 @@ first of all we need to get fresh Laravel 8 version application using bellow com
 composer create-project --prefer-dist laravel/laravel blog
 ```
 
-After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI serve command:<br>
+After the project has been created, let's switch the directory of a newly created blog project<br>
 ```
 cd blog
 ```

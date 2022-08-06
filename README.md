@@ -462,12 +462,14 @@ php artisan serve
 ```
 **Admin User**
 ```
+Login URL : http://127.0.0.1:8000/login
 Email: admin@example.com
 Password: 123456
 ```
 
 **User User**
 ```
+Login URL : http://127.0.0.1:8000/login
 Email: user@example.com
 Password: 123456
 ```

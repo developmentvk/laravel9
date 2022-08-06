@@ -1,5 +1,5 @@
-# Laravel 8 Multi Auth (Authentication) Tutorial
-In this example, you will learn laravel 8 multi auth. i would like to share with you laravel 8 multiple auth. This post will give you simple example of laravel 8 multiple authentication.
+# Laravel 8 Installation Tutorial
+In this example, you will learn laravel 8 multi auth. i would like to share with you laravel 8 multiple auth.
 
 **Step 1: Install Laravel 8**
 

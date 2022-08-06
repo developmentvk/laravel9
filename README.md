@@ -1,19 +1,15 @@
 # Laravel 8 Installation Tutorial
 In this example, you will learn laravel 8 multi auth. i would like to share with you laravel 8 multiple auth.
 
-**Step 1: Install Laravel 8**
-
+**Step 1: Install Laravel 8**<br>
 first of all we need to get fresh Laravel 8 version application using bellow command, So open your terminal OR command prompt and run bellow command:
 ```
 composer create-project --prefer-dist laravel/laravel blog
 ```
 
-**Step 2: Database Configuration**
-
-In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 8. So let's open .env file and fill all details like as bellow:
-
+**Step 2: Database Configuration**<br>
+In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 8. So let's open .env file and fill all details like as bellow:<br>
 **.env**
-
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -95,7 +91,7 @@ so let's run bellow command:
 ```
 php artisan migrate
 ```
-**Step 4: Create Auth using scaffold**
+**Step 4: Create Auth using scaffold**<br>
 Now, in this step, we will create auth scaffold command to create login, register and dashboard. so run following commands:<br>
 <code>Laravel 8 UI Package</code>
 ```
@@ -111,7 +107,7 @@ npm install
 ```
 npm run dev
 ```
-**Step 5: Create IsAdmin Middleware**
+**Step 5: Create IsAdmin Middleware**<br>
 In this step, we require to create admin middleware that will allows only admin access users to that routes. so let's create admin user with following steps.<br>
 ```
 php artisan make:middleware IsAdmin
@@ -133,7 +129,7 @@ class IsAdmin {
         if (auth()->user()->is_admin == 1) {
             return $next($request);
         }
-        return redirect(‘home’)->with(‘error’, "You don't have admin access.");
+        return redirect('home')->with('error', "You don't have admin access.");
     }
 }
 ```
@@ -142,60 +138,50 @@ class IsAdmin {
 ....
 
 protected $routeMiddleware = [
-
     'auth' => \App\Http\Middleware\Authenticate::class,
-
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-
     'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-
     'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-
     'can' => \Illuminate\Auth\Middleware\Authorize::class,
-
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-
     'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
     'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-
     'is_admin' => \App\Http\Middleware\IsAdmin::class,
-
 ];
 
 ....
 ```
-**Step 6: Create Route**
+**Step 6: Create Route**<br>
 Here, we need to add one more route for admin user home page so let's add that route in web.php file.<br>
 <code>routes/web.php</code>
 ```
 <?php
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+
 /*
-
 |--------------------------------------------------------------------------
-
 | Web Routes
-
 |--------------------------------------------------------------------------
-
 |
-
 | Here is where you can register web routes for your application. These
-
 | routes are loaded by the RouteServiceProvider within a group which
-
 | contains the "web" middleware group. Now create something great!
-
 |
-
 */
-Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
 ```
-**Step 7: Add Method on Controller**
+**Step 7: Add Method on Controller**<br>
 Here, we need add adminHome() method for admin route in HomeController. so let's add like as bellow:<br>
 <code>app/Http/Controllers/HomeController.php</code>
 ```
@@ -229,8 +215,8 @@ class HomeController extends Controller {
     }
 }
 ```
-**Step 8: Create Blade file**
-In this step, we need to create new blade file for admin and update for user blade file. so let's change it.
+**Step 8: Create Blade file**<br>
+In this step, we need to create new blade file for admin and update for user blade file. so let's change it.<br>
 <code>resources/views/home.blade.php</code>
 ```
 @extends('layouts.app')
@@ -269,8 +255,8 @@ In this step, we need to create new blade file for admin and update for user bla
 </div>
 @endsection
 ```
-**Step 9: Update on LoginController**
-In this step, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.
+**Step 9: Update on LoginController**<br>
+In this step, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>
 <code>app/Http/Controllers/Auth/LoginController.php</code>
 ```
 <?php
@@ -279,24 +265,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 class LoginController extends Controller {
-    /*
-    
-    |--------------------------------------------------------------------------
-    
-    | Login Controller
-    
-    |--------------------------------------------------------------------------
-    
-    |
-    
-    | This controller handles authenticating users for the application and
-    
-    | redirecting them to your home screen. The controller uses a trait
-    
-    | to conveniently provide its functionality to your applications.
-    
-    |
-    
+    /*    
+    |--------------------------------------------------------------------------    
+    | Login Controller    
+    |--------------------------------------------------------------------------    
+    |    
+    | This controller handles authenticating users for the application and    
+    | redirecting them to your home screen. The controller uses a trait    
+    | to conveniently provide its functionality to your applications.    
+    |    
     */
     use AuthenticatesUsers;
     /**
@@ -328,7 +305,7 @@ class LoginController extends Controller {
     }
 }
 ```
-**Step 10: Create Seeder**
+**Step 10: Create Seeder**<br>
 We will create seeder for create new admin and normal user. so let's create seeder using following command:
 ```
 php artisan make:seeder CreateUsersSeeder

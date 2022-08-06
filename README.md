@@ -3,6 +3,12 @@ In this example, you will learn laravel 8 multi auth. i would like to share with
 
 However, in this example, we will create very simple way and you can easily use with your laravel 8 application. so let's follow this step.<br><br>
 
+**Your First Laravel Project**<br><br>
+
+Before creating your first [Laravel]([url](https://laravel.com)) project, you should ensure that your local machine has PHP and Composer installed. If you are developing on macOS, PHP and Composer can be installed via Homebrew. In addition, we recommend installing Node and NPM.<br>
+
+After you have installed PHP and Composer, you may create a new Laravel project via the Composer create-project command:<br><br>
+
 **Step 1: Install Laravel 8**<br>
 first of all we need to get fresh Laravel 8 version application using bellow command, So open your terminal OR command prompt and run bellow command:
 ```

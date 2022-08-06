@@ -340,8 +340,12 @@ In this step, we need to create new blade file for admin and update for user bla
 @endsection
 
 ```
-**Step 9: Update on LoginController**<br>
-In this step, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>
+**Step 9: Create & Update on LoginController**<br>
+Let's create LoginController using artisan command:
+```
+php artisan make:controller LoginController
+```
+In next, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>
 <code>app/Http/Controllers/Auth/LoginController.php</code>
 ```
 <?php

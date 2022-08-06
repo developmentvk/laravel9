@@ -1,5 +1,7 @@
 # Laravel 8 Installation Tutorial
-In this example, you will learn laravel 8 multi auth. i would like to share with you laravel 8 multiple auth.
+In this example, you will learn laravel 8 multi auth. i would like to share with you laravel 8 multiple auth.<br>
+
+However, in this example, we will create very simple way and you can easily use with your laravel 8 application. so let's follow this step.<br><br>
 
 **Step 1: Install Laravel 8**<br>
 first of all we need to get fresh Laravel 8 version application using bellow command, So open your terminal OR command prompt and run bellow command:

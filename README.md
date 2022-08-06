@@ -340,48 +340,58 @@ In this step, we need to create new blade file for admin and update for user bla
 @endsection
 
 ```
-**Step 9: Create & Update on LoginController**<br>
-Let's create LoginController using artisan command:
-```
-php artisan make:controller LoginController
-```
-In next, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>
+**Step 9: Update on LoginController**<br>
+In this step, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>
 <code>app/Http/Controllers/Auth/LoginController.php</code>
 ```
 <?php
+
 namespace App\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-class LoginController extends Controller {
-    /*    
-    |--------------------------------------------------------------------------    
-    | Login Controller    
-    |--------------------------------------------------------------------------    
-    |    
-    | This controller handles authenticating users for the application and    
-    | redirecting them to your home screen. The controller uses a trait    
-    | to conveniently provide its functionality to your applications.    
-    |    
-    */
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+     */
+
     use AuthenticatesUsers;
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest')->except('logout');
     }
-    public function login(Request $request) {
+
+    public function login(Request $request)
+    {
         $input = $request->all();
-        $this->validate($request, ['email' => 'required|email', 'password' => 'required', ]);
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             if (auth()->user()->is_admin == 1) {
                 return redirect()->route('admin.home');
@@ -393,6 +403,7 @@ class LoginController extends Controller {
         }
     }
 }
+
 ```
 **Step 10: Create Seeder**<br>
 We will create seeder for create new admin and normal user. so let's create seeder using following command:
@@ -405,7 +416,7 @@ php artisan make:seeder CreateUsersSeeder
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CreateUsersSeeder extends Seeder
@@ -418,28 +429,23 @@ class CreateUsersSeeder extends Seeder
     public function run()
     {
         $user = [
-
             [
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
                 'is_admin' => '1',
                 'password' => bcrypt('123456'),
-
             ],
             [
-
                 'name' => 'User',
                 'email' => 'user@example.com',
                 'is_admin' => '0',
                 'password' => bcrypt('123456'),
-
             ],
-
         ];
 
         foreach ($user as $key => $value) {
 
-            User::create($value);
+            \App\Models\User::create($value);
 
         }
     }
@@ -449,7 +455,7 @@ Now let's run seeder:
 ```
 php artisan db:seed --class=CreateUsersSeeder
 ```
-Ok, now we are ready to run.<br>
+Ok, now we are ready to run.<br><br>
 So let's run project using this command:
 ```
 php artisan serve

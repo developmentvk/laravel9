@@ -6,7 +6,11 @@ However, in this example, we will create very simple way and you can easily use 
 **Step 1: Install Laravel 8**<br>
 first of all we need to get fresh Laravel 8 version application using bellow command, So open your terminal OR command prompt and run bellow command:
 ```
-composer create-project --prefer-dist laravel/laravel blog
+composer create-project laravel/laravel demo
+```
+**OR**
+```
+composer create-project --prefer-dist laravel/laravel demo
 ```
 
 After the project has been created, let's switch the directory of a newly created blog project<br>
@@ -20,7 +24,7 @@ In second step, we will make database configuration for example database name, u
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=here your database name(blog)
+DB_DATABASE=here your database name(demo)
 DB_USERNAME=here database username(root)
 DB_PASSWORD=here database password(root)
 ```

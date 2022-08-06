@@ -86,6 +86,10 @@ class User extends Authenticatable {
     protected $casts = ['email_verified_at' => 'datetime', ];
 }
 ```
+After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI serve command:<br>
+```
+cd blog
+```
 Now we need to run migration.<br>
 so let's run bellow command:
 ```
@@ -102,10 +106,7 @@ composer require laravel/ui
 php artisan ui bootstrap --auth 
 ```
 ```
-npm install
-```
-```
-npm run dev
+npm install && npm run dev
 ```
 **Step 5: Create IsAdmin Middleware**<br>
 In this step, we require to create admin middleware that will allows only admin access users to that routes. so let's create admin user with following steps.<br>
@@ -115,42 +116,101 @@ php artisan make:middleware IsAdmin
 <code>app/Http/middleware/IsAdmin.php</code>
 ```
 <?php
+
 namespace App\Http\Middleware;
+
 use Closure;
-class IsAdmin {
+use Illuminate\Http\Request;
+
+class IsAdmin
+{
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next) {
+    public function handle(Request $request, Closure $next)
+    {
         if (auth()->user()->is_admin == 1) {
             return $next($request);
         }
         return redirect('home')->with('error', "You don't have admin access.");
     }
 }
+
 ```
 <code>app/Http/Kernel.php</code>
 ```
-....
+<?php
 
-protected $routeMiddleware = [
-    'auth' => \App\Http\Middleware\Authenticate::class,
-    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-    'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-    'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-    'can' => \Illuminate\Auth\Middleware\Authorize::class,
-    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-    'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-    'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-    'is_admin' => \App\Http\Middleware\IsAdmin::class,
-];
+namespace App\Http;
 
-....
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
+
+class Kernel extends HttpKernel
+{
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     *
+     * @var array<int, class-string|string>
+     */
+    protected $middleware = [
+        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustProxies::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    ];
+
+    /**
+     * The application's route middleware groups.
+     *
+     * @var array<string, array<int, class-string|string>>
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+
+        'api' => [
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+    ];
+
+    /**
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array<string, class-string|string>
+     */
+    protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
+    ];
+}
 ```
 **Step 6: Create Route**<br>
 Here, we need to add one more route for admin user home page so let's add that route in web.php file.<br>
@@ -186,23 +246,30 @@ Here, we need add adminHome() method for admin route in HomeController. so let's
 <code>app/Http/Controllers/HomeController.php</code>
 ```
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-class HomeController extends Controller {
+
+class HomeController extends Controller
+{
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
+
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
+    public function index()
+    {
         return view('home');
     }
     /**
@@ -210,10 +277,12 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function adminHome() {
+    public function adminHome()
+    {
         return view('adminHome');
     }
 }
+
 ```
 **Step 8: Create Blade file**<br>
 In this step, we need to create new blade file for admin and update for user blade file. so let's change it.<br>
@@ -226,15 +295,23 @@ In this step, we need to create new blade file for admin and update for user bla
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
                 <div class="card-body">
-                    You are normal user.
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in as user!') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
 ```
 <code>resources/views/adminHome.blade.php</code>
 ```
@@ -245,15 +322,23 @@ In this step, we need to create new blade file for admin and update for user bla
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
                 <div class="card-body">
-                    You are Admin.
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in as admin!') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
 ```
 **Step 9: Update on LoginController**<br>
 In this step, we will change on LoginController, when user will login than we redirect according to user access. if normal user than we will redirect to home route and if admin user than we redirect to admin route. so let's change.<br>

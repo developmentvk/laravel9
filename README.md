@@ -7,6 +7,10 @@ first of all we need to get fresh Laravel 8 version application using bellow com
 composer create-project --prefer-dist laravel/laravel blog
 ```
 
+After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI serve command:<br>
+```
+cd blog
+```
 **Step 2: Database Configuration**<br>
 In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 8. So let's open .env file and fill all details like as bellow:<br>
 **.env**
@@ -85,10 +89,6 @@ class User extends Authenticatable {
      */
     protected $casts = ['email_verified_at' => 'datetime', ];
 }
-```
-After the project has been created, start Laravel's local development server using the Laravel's Artisan CLI serve command:<br>
-```
-cd blog
 ```
 Now we need to run migration.<br>
 so let's run bellow command:

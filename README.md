@@ -24,7 +24,7 @@ After the project has been created, let's switch the directory of a newly create
 cd blog
 ```
 **Step 2: Database Configuration**<br>
-In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 8. So let's open .env file and fill all details like as bellow:<br>
+In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 9. So let's open .env file and fill all details like as bellow:<br>
 **.env**
 ```
 DB_CONNECTION=mysql

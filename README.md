@@ -1,7 +1,7 @@
 # Laravel 9 Installation Tutorial
-In this example, you will learn laravel 9 multi auth. i would like to share with you laravel 8 multiple auth.<br>
+In this example, you will learn laravel 9 multi auth. i would like to share with you laravel 9 multiple auth.<br>
 
-However, in this example, we will create very simple way and you can easily use with your laravel 8 application. so let's follow this step.<br><br>
+However, in this example, we will create very simple way and you can easily use with your laravel 9 application. so let's follow this step.<br><br>
 
 **Your First Laravel Project**<br><br>
 
@@ -109,7 +109,7 @@ php artisan migrate
 ```
 **Step 4: Create Auth using scaffold**<br>
 Now, in this step, we will create auth scaffold command to create login, register and dashboard. so run following commands:<br>
-<code>Laravel 8 UI Package</code>
+<code>Laravel 9 UI Package</code>
 ```
 composer require laravel/ui 
 ```

@@ -21,7 +21,7 @@ composer create-project --prefer-dist laravel/laravel demo
 
 After the project has been created, let's switch the directory of a newly created blog project<br>
 ```
-cd blog
+cd demo
 ```
 **Step 2: Database Configuration**<br>
 In second step, we will make database configuration for example database name, username, password etc for our crud application of laravel 9. So let's open .env file and fill all details like as bellow:<br>

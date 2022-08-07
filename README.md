@@ -5,7 +5,7 @@ However, in this example, we will create very simple way and you can easily use 
 
 **Your First Laravel Project**<br><br>
 
-Before creating your first [Laravel]([https://laravel.com]) project, you should ensure that your local machine has PHP and [Composer](https://getcomposer.org/download/) installed (https://getcomposer.org/download/). If you are developing on macOS, PHP and Composer can be installed via Homebrew. In addition, we recommend installing Node and NPM.<br>
+Before creating your first [Laravel](https://laravel.com) project, you should ensure that your local machine has [PHP](https://computingforgeeks.com/how-to-install-php-on-ubuntu-linux-system/) and [Composer](https://getcomposer.org/download/) installed (https://getcomposer.org/download/). If you are developing on macOS, PHP and Composer can be installed via Homebrew. In addition, we recommend installing Node and NPM.<br>
 
 After you have installed PHP and Composer, you may create a new Laravel project via the Composer create-project command:<br><br>
 
